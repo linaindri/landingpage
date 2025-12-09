@@ -1,0 +1,30 @@
+name: Deploy HTML ke Vercel
+
+on:
+  push:
+    branches:
+      - main # Ganti dengan branch utama Anda jika berbeda (misalnya: master)
+  # Tambahkan workflow_dispatch agar Anda juga bisa menjalankan deploy secara manual dari tab Actions di GitHub
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⬇️ Checkout kode sumber
+        uses: actions/checkout@v4
+
+      - name: 🚀 Deploy ke Vercel
+        uses: amondnet/vercel-action@v25
+        with:
+          # Token Vercel Anda (Harus disimpan sebagai GitHub Secret)
+          vercel-token: ${{ secrets.VERCEL_TOKEN }} 
+          # ID Proyek Vercel Anda (Opsional, tapi direkomendasikan jika menggunakan team/organisasi)
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }} 
+          # ID Organisasi/Team Vercel Anda (Opsional, tapi direkomendasikan)
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }} 
+          # Direktori root proyek (Default: ./)
+          # Ganti jika file HTML Anda berada di sub-direktori (misalnya: 'dist' atau 'public')
+          working-directory: ./
+          # Menunggu deploy selesai (Default: true)
+          wait: true
